@@ -5,5 +5,6 @@ flask-wtf
 flask-sqlalchemy
 flask-mail
 flask-login
+flask-moment
 werkzeug
 itsdangerous
