@@ -13,3 +13,11 @@ if form.validate_on_submit():
     return redirect(url_for('.index'))
 return render_template('index.html', form=form, name=session.get('name'),
     known=session.get('known', False), current_time=datetime.utcnow())
+
+
+@main.route('/producto/<slug>')
+def producto(slug):
+    producto = Producto.query.filter_by(slug=slug).first()
+    if producto is None:
+        abort(404)
+    return render_template('product.html', producto=producto)
