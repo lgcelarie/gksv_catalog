@@ -18,9 +18,10 @@ class Marca(db.Model):
 class Producto(db.Model):
     __tablename__ = 'productos'
     id = db.Column(db.Integer, primary_key = True)
-    slug = db.Column(db.String(100), nullable = False, unique)
+    slug = db.Column(db.String(100), nullable = False, unique=True)
     nombre = db.Column(db.String(100), nullable = False)
     estado = db.Column(db.Enum(EstadoProducto), nullable = False)
+    condicion = db.Column(db.Float, nullable = False, default= '0.0')
     cant_visto = db.Column(db.Integer, nullable = False, default = 0)
     peq_desc = db.Column(db.String(250))
     descripcion = db.Column(db.Text, nullable = False)

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>{{ producto.nombre }}</h1>
+<div class="row">
+	<div class="col-md-4">
+		{% with imagenes = producto.imagenes %}
+			{% if imagenes %}
+				<div class="row">
+					<img class="img-responsive" src="{{ url_for('static', filename='productos/'+imagen.ruta)}}">
+				</div>
+				<div class="row">
+					<ul>
+					{% for imagen in imagenes %}
+						<li><a href=""><img src="{{ url_for('static', filename='productos/'+imagen.ruta)}}"></a></li>
+					{% endfor %}
+					</ul>
+				</div>
+				
+			{% endif %}
+	</div>
+	<div class="col-md-8">
+		<div class="container">
+			<div class="row"><b>Marca:</b> {{ producto.marca.nombre }}</div>
+			<div class="row"><b>Estado:</b> {{ producto.estado }}</div>
+			<div class="row"><b>Condicion:</b> {{ producto.condicion }}/10</div>
+			<button>Reservar (enviar mensaje en Facebook)</button>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
