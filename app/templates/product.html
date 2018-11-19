@@ -4,25 +4,31 @@
 <h1>{{ producto.nombre }}</h1>
 <div class="row">
 	<div class="col-md-4">
-		{% with imagenes = producto.imagenes %}
+		
+		{% with imagenes = producto.imagenes.all() %}
 			{% if imagenes %}
+				{% with principal = producto.imagenes.filter_by(primaria = True ).first() %}
+				{% if principal %}
 				<div class="row">
-					<img class="img-responsive" src="{{ url_for('static', filename='productos/'+imagen.ruta)}}">
+					<img class="img-responsive" src="{{ url_for('static', filename='productos/'+principal.ruta)}}">
 				</div>
+				{% endif %}
+				{% endwith %}
 				<div class="row">
-					<ul>
+					<ul class="list-inline">
 					{% for imagen in imagenes %}
-						<li><a href=""><img src="{{ url_for('static', filename='productos/'+imagen.ruta)}}"></a></li>
+						<li><a href="" class="img-thumbnail col-md-1"><img src="{{ url_for('static', filename='productos/'+imagen.ruta)}}"></a></li>
 					{% endfor %}
 					</ul>
 				</div>
 				
 			{% endif %}
+		{% endwith %}
 	</div>
 	<div class="col-md-8">
 		<div class="container">
 			<div class="row"><b>Marca:</b> {{ producto.marca.nombre }}</div>
-			<div class="row"><b>Estado:</b> {{ producto.estado }}</div>
+			<div class="row"><b>Estado:</b> {{ producto.estado.value }}</div>
 			<div class="row"><b>Condicion:</b> {{ producto.condicion }}/10</div>
 			<button>Reservar (enviar mensaje en Facebook)</button>
 		</div>

@@ -4,6 +4,9 @@ from app import create_app, db
 from app import models
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')

@@ -3,24 +3,23 @@ from flask import render_template, session, redirect, url_for, g
 from . import main
 from .forms import SearchForm
 from .. import db
-from ..models import User
+from ..models import Producto
 
 
-@bp.before_app_request
+@main.before_app_request
 def before_request():
     g.search_form = SearchForm()
-    g.locale = str(get_locale())
+    # g.locale = str(get_locale())
 
 
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = NameForm()
-if form.validate_on_submit():
-# ...
-    return redirect(url_for('.index'))
-return render_template('index.html', form=form, name=session.get('name'),
-    known=session.get('known', False), current_time=datetime.utcnow())
+    if form.validate_on_submit():
+        return redirect(url_for('.index'))
+    return render_template('index.html', form=form, name=session.get('name'),
+        known=session.get('known', False), current_time=datetime.utcnow())
 
 
 

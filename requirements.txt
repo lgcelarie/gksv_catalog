@@ -7,5 +7,6 @@ flask-mail
 flask-login
 flask-moment
 flask-migrate
+pymysql
 werkzeug
 itsdangerous
