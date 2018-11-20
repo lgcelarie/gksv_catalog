@@ -28,7 +28,8 @@ def producto(slug):
     producto = Producto.query.filter_by(slug=slug).first()
     if producto is None:
         abort(404)
-    return render_template('product.html', producto=producto)
+    stars = (int(producto.condicion)/2,round(producto.condicion%2))
+    return render_template('product.html', producto=producto, stars = stars)
 
 
 

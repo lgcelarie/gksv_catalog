@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-<h1>{{ producto.nombre }}</h1>
+
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-6">
 		
 		{% with imagenes = producto.imagenes.all() %}
 			{% if imagenes %}
 				{% with principal = producto.imagenes.filter_by(primaria = True ).first() %}
 				{% if principal %}
 				<div class="row">
-					<img class="img-responsive" src="{{ url_for('static', filename='productos/'+principal.ruta)}}">
+					<img class="img-responsive" src="{{ url_for('static', filename='productos/'+principal.ruta)}}" id="showcase">
 				</div>
 				{% endif %}
 				{% endwith %}
@@ -25,12 +25,38 @@
 			{% endif %}
 		{% endwith %}
 	</div>
-	<div class="col-md-8">
-		<div class="container">
-			<div class="row"><b>Marca:</b> {{ producto.marca.nombre }}</div>
-			<div class="row"><b>Estado:</b> {{ producto.estado.value }}</div>
-			<div class="row"><b>Condicion:</b> {{ producto.condicion }}/10</div>
-			<button>Reservar (enviar mensaje en Facebook)</button>
+	<div class="col-md-6">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>{{ producto.nombre }}</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<span class="label label-primary">{{producto.marca.nombre}}</span>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<b>Estado:</b> {{ producto.estado.value }}	
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<b>Condicion:</b> {% for i in range(stars[0] | int) %} <span class="glyphicon glyphicon-star" aria-hidden="true"></span>{% endfor %} {% if stars[1] > 0 %} <span class="glyphicon glyphicon-star" aria-hidden="true"></span> {% endif %}
+				<span>{{ producto.condicion }}/10 </span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<button>Reservar (enviar mensaje en Facebook)</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				
+			</div>
 		</div>
 	</div>
 </div>
