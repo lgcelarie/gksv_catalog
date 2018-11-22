@@ -24,55 +24,37 @@
                         <div class="single_product_thumb">
                             <div id="product_details_slider" class="carousel slide" data-ride="carousel">
                                 <ol class="carousel-indicators">
-                                	{% with imagenes = producto.imagenes.all() %}
-			{% if imagenes %}
-				{% with principal = producto.imagenes.filter_by(primaria = True ).first() %}
-				{% if principal %}
-				<div class="row">
-					<img class="img-responsive" src="{{ url_for('static', filename='productos/'+principal.ruta)}}" id="showcase">
-				</div>
-				{% endif %}
-				{% endwith %}
-				<div class="row">
-					<ul class="list-inline">
-					{% for imagen in imagenes %}
-						<li><a href="" class="img-thumbnail col-md-1"><img src="{{ url_for('static', filename='productos/'+imagen.ruta)}}"></a></li>
-					{% endfor %}
-					</ul>
-				</div>
-				
-			{% endif %}
-		{% endwith %}
-                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url({{ url_for('static', filename='productos/'+principal.ruta)}});">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(img/product-img/pro-big-2.jpg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(img/product-img/pro-big-3.jpg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(img/product-img/pro-big-4.jpg);">
-                                    </li>
+                                	{% with imagenes = producto.imagenes.order_by('imagenes.primaria').all() %}
+                                        {% if imagenes %}
+                                            {% for imagen in imagenes %}
+				                                {% if imagen.principal == True %}
+                                                    <li class="active" data-target="#product_details_slider" data-slide-to="{{imagen.id}}" style="background-image: url({{ url_for('static', filename='productos/'+imagen.ruta)}});">
+                                                    </li>
+                                                {% else %}
+                                                    <li data-target="#product_details_slider" data-slide-to="{{imagen.id}}" style="background-image: url({{url_for('static', filename='productos/'+imagen.ruta)}});">
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endwith %}    
                                 </ol>
+				            </div>
                                 <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <a class="gallery_img" href="img/product-img/pro-big-1.jpg">
-                                            <img class="d-block w-100" src="img/product-img/pro-big-1.jpg" alt="First slide">
-                                        </a>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <a class="gallery_img" href="img/product-img/pro-big-2.jpg">
-                                            <img class="d-block w-100" src="img/product-img/pro-big-2.jpg" alt="Second slide">
-                                        </a>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <a class="gallery_img" href="img/product-img/pro-big-3.jpg">
-                                            <img class="d-block w-100" src="img/product-img/pro-big-3.jpg" alt="Third slide">
-                                        </a>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <a class="gallery_img" href="img/product-img/pro-big-4.jpg">
-                                            <img class="d-block w-100" src="img/product-img/pro-big-4.jpg" alt="Fourth slide">
-                                        </a>
-                                    </div>
+                                    {% with imagenes = producto.imagenes.order_by('imagenes.primaria').all() %}
+                                        {% if imagenes %}
+                                            {% for imagen in imagenes %}
+                                                {% if imagen.principal == True %}
+                                                    <div class="carousel-item active">
+                                                {% else %}
+                                                    <div class="carousel-item">
+                                                {% endif %}
+                                                        <a class="gallery_img" href="{{url_for('static', filename='productos/'+imagen.ruta)}}">
+                                                            <img class="d-block w-100" src="{{url_for('static', filename='productos/'+imagen.ruta)}}" alt="">
+                                                        </a>
+                                                    </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endwith %}
                                 </div>
                             </div>
                         </div>
@@ -82,42 +64,55 @@
                             <!-- Product Meta Data -->
                             <div class="product-meta-data">
                                 <div class="line"></div>
-                                <p class="product-price">$180</p>
-                                <a href="product-details.html">
-                                    <h6>White Modern Chair</h6>
+                                <p class="product-price">N/A</p>
+                                <a href="#">
+                                    <h6>{{ producto.nombre }}</h6>
                                 </a>
                                 <!-- Ratings & Review -->
                                 <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
                                     <div class="ratings">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        {% for i in range(stars[0] | int) %} 
+                                            <i class="fa fa-star" aria-hidden="true"></i> 
+                                        {% endfor %} 
+                                        {% if stars[1] > 0 %}
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        {% else %}
+                                            <i class="fa fa-star-empty" aria-hidden="true"></i>  
+                                        {% endif %}
+                                        <span>{{ producto.condicion }}/10 </span>
                                     </div>
                                     <div class="review">
                                         <a href="#">Write A Review</a>
                                     </div>
                                 </div>
                                 <!-- Avaiable -->
-                                <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
+                                <p class="avaibility">
+                                    {% if producto.estado == 'DISPONIBLE' %}
+                                        <i class="fa fa-circle"></i>
+                                    {% elif producto.estado == 'RESERVADO'%}
+                                        <i class="fa fa-circle orange"></i>
+                                    {% else %}
+                                        <i class="fa fa-circle red"></i>
+                                    {% endif %} 
+                                    {{producto.estado.value}}                                   
+                                </p>
                             </div>
 
                             <div class="short_overview my-5">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?</p>
+                                <p>{{ producto.peq_desc}}</p>
                             </div>
 
                             <!-- Add to Cart Form -->
                             <form class="cart clearfix" method="post">
                                 <div class="cart-btn d-flex mb-50">
-                                    <p>Qty</p>
+                                    <p>Cant. Disponible</p>
                                     <div class="quantity">
                                         <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
                                         <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
                                         <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
-                                <button type="submit" name="addtocart" value="5" class="btn amado-btn">Add to cart</button>
+                                <button name="addtocart" value="5" class="btn amado-btn">Reservar! (mensaje por Facebook)</button>
                             </form>
 
                         </div>
@@ -126,64 +121,4 @@
             </div>
         </div>
         <!-- Product Details Area End -->
-
-<div class="row">
-	<div class="col-md-6">
-		
-		{% with imagenes = producto.imagenes.all() %}
-			{% if imagenes %}
-				{% with principal = producto.imagenes.filter_by(primaria = True ).first() %}
-				{% if principal %}
-				<div class="row">
-					<img class="img-responsive" src="{{ url_for('static', filename='productos/'+principal.ruta)}}" id="showcase">
-				</div>
-				{% endif %}
-				{% endwith %}
-				<div class="row">
-					<ul class="list-inline">
-					{% for imagen in imagenes %}
-						<li><a href="" class="img-thumbnail col-md-1"><img src="{{ url_for('static', filename='productos/'+imagen.ruta)}}"></a></li>
-					{% endfor %}
-					</ul>
-				</div>
-				
-			{% endif %}
-		{% endwith %}
-	</div>
-	<div class="col-md-6">
-		<div class="row">
-			<div class="col-md-12">
-				<h1>{{ producto.nombre }}</h1>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<span class="label label-primary">{{producto.marca.nombre}}</span>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<b>Estado:</b> {{ producto.estado.value }}	
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<b>Condicion:</b> {% for i in range(stars[0] | int) %} <span class="glyphicon glyphicon-star" aria-hidden="true"></span>{% endfor %} {% if stars[1] > 0 %} <span class="glyphicon glyphicon-star" aria-hidden="true"></span> {% endif %}
-				<span>{{ producto.condicion }}/10 </span>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<button>Reservar (enviar mensaje en Facebook)</button>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				
-			</div>
-		</div>
-	</div>
-</div>
-
 {% endblock %}
