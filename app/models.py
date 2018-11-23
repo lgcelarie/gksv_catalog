@@ -7,6 +7,10 @@ class EstadoProducto(enum.Enum):
     RESERVADO = 'RESERVADO'
     AGOTADO = 'AGOTADO'
 
+class EstadoCatalogo(enum.Enum):
+    ACTIVO = 'ACTIVO'
+    INACTIVO = 'INACTIVO'
+
 class Marca(db.Model):
     __tablename__ = 'marcas'
     id = db.Column(db.Integer, primary_key=True)
@@ -14,6 +18,16 @@ class Marca(db.Model):
     productos = db.relationship('Producto', backref='marca', lazy='dynamic')
     def __repr__(self):
         return '<Marca %r>' % self.id
+
+class Categoria(db.Model):
+    __tablename__ = 'categorias'
+    id = db.Column(db.Integer, primary_key = True)
+    nombre = db.Column(db.String(100), nullable = False)
+    peq_desc = db.Column(db.String(250))
+    imagen = db.Column(db.String(120), nullable = False)
+    estado = db.Column(db.Enum(Marca), nullable = False, default = EstadoCatalogo.ACTIVO)
+    def __repr__(self):
+        return '<Categoria %r>' % self.nombre
 
 class Producto(db.Model):
     __tablename__ = 'productos'
@@ -31,6 +45,15 @@ class Producto(db.Model):
 
     def __repr__(self):
         return '<Producto %r>' % self.id
+
+class ProductoCategoria(db.Model):
+    __tablename__ = 'productos_x_categoria'
+    id = db.Column(db.Integer, primary_key = True)
+    producto_id = db.Column(db.Integer, db.ForeignKey('productos.id'))
+    categoria_id = db.Column(db.Integer, db.ForeignKey('categorias.id'))
+
+    def __repr__(self):
+        return '<ProductoCategoria %r>' % self.id
 
 class Imagen(db.Model):
     __tablename__ = 'imagenes'
