@@ -36,7 +36,6 @@
                                         {% endif %}
                                     {% endwith %}    
                                 </ol>
-				            </div>
                                 <div class="carousel-inner">
                                     {% with imagenes = producto.imagenes.order_by('imagenes.primaria').all() %}
                                         {% if imagenes %}
@@ -54,6 +53,7 @@
                                         {% endif %}
                                     {% endwith %}
                                 </div>
+				            </div>                               
                             </div>
                         </div>
                     </div>
@@ -69,6 +69,7 @@
                                 <!-- Ratings & Review -->
                                 <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
                                     <div class="ratings">
+                                        {% with stars = producto.estrellas()%}
                                         {% for i in range(stars[0] | int) %} 
                                             <i class="fa fa-star" aria-hidden="true"></i> 
                                         {% endfor %} 
@@ -77,6 +78,7 @@
                                         {% else %}
                                             <i class="fa fa-star-empty" aria-hidden="true"></i>  
                                         {% endif %}
+                                        {% endwith %}
                                         <span>{{ producto.condicion }}/10 </span>
                                     </div>
                                     <div class="review">

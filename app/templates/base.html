@@ -11,43 +11,13 @@
 	{{ super() }}
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/core-style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 {% endblock styles %}
 
 {% block title %}
 	{% if title %} {{ title }} - Geekingdom SV {% else %} Bienvenido/a a Geekingdom SV {% endif %}
 {% endblock title %}
 
-{% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle"
-				data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="/">Geekingdom SV</a>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<li><a href="/">Inicio</a></li>
-				<li><a href="/search">Buscar</a></li>
-			</ul>
-			{% if g.search_form %}
-                <form class="navbar-form navbar-left" method="get"
-                        action="{{ url_for('main.search') }}">
-                    <div class="form-group">
-                        {{ g.search_form.q(size=20, class='form-control',
-                            placeholder=g.search_form.q.label.text) }}
-                    </div>
-                </form>
-                {% endif %}
-		</div>
-	</div>
-</div>
-{% endblock %}
 {% block body %}
 	<!-- Search Wrapper Area Start -->
     <div class="search-wrapper section-padding-100">
@@ -62,7 +32,7 @@
                 			<form class="navbar-form navbar-left" method="get" action="{{ url_for('main.search') }}">
                     			<div class="form-group">
                         			{{ g.search_form.q(size=20, class='form-control', placeholder=g.search_form.q.label.text) }}
-                        			<button type="submit"><img src="{{ url_for('static', filename='img/core-img/search.png') }}" alt=""></button>
+                        			<button type="submit"><img src="{{ url_for('static', filename='core-img/search.png') }}" alt=""></button>
                     			</div>
                 			</form>
                 		{% endif %}
@@ -79,7 +49,7 @@
         <div class="mobile-nav">
             <!-- Navbar Brand -->
             <div class="amado-navbar-brand">
-                <a href="index.html"><img src="{{ url_for('static', filename='core-img/logo.png') }}" alt=""></a>
+                <a href="{{url_for('main.index')}}"><img src="{{ url_for('static', filename='core-img/logo.png') }}" alt=""></a>
             </div>
             <!-- Navbar Toggler -->
             <div class="amado-navbar-toggler">
@@ -95,27 +65,21 @@
             </div>
             <!-- Logo -->
             <div class="logo">
-                <a href="index.html"><img src="{{ url_for('static', filename='core-img/logo.png') }}" alt=""></a>
+                <a href="{{url_for('main.index')}}"><img src="{{ url_for('static', filename='core-img/logo.png') }}" alt=""></a>
             </div>
             <!-- Amado Nav -->
             <nav class="amado-nav">
                 <ul>
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li><a href="product-details.html">Product</a></li>
-                    <li><a href="cart.html">Cart</a></li>
-                    <li><a href="checkout.html">Checkout</a></li>
+                    <li><a href="{{url_for('main.index')}}">Inicio</a></li>
                 </ul>
             </nav>
             <!-- Button Group -->
             <div class="amado-btn-group mt-30 mb-100">
-                <a href="#" class="btn amado-btn mb-15">%Discount%</a>
+                <a href="#" class="btn amado-btn mb-15">Funko POP a $15</a>
                 <a href="#" class="btn amado-btn active">New this week</a>
             </div>
             <!-- Cart Menu -->
             <div class="cart-fav-search mb-100">
-                <a href="cart.html" class="cart-nav"><img src="{{ url_for('static', filename='core-img/cart.png') }}" alt=""> Cart <span>(0)</span></a>
-                <a href="#" class="fav-nav"><img src="{{ url_for('static', filename='core-img/favorites.png') }}" alt=""> Favourite</a>
                 <a href="#" class="search-nav"><img src="{{ url_for('static', filename='core-img/search.png') }}" alt=""> Search</a>
             </div>
             <!-- Social Button -->
@@ -146,7 +110,7 @@
                     <div class="single_widget_area">
                         <!-- Logo -->
                         <div class="footer-logo mr-50">
-                            <a href="index.html"><img src="img/core-img/logo2.png" alt=""></a>
+                            <a href="index.html"><img src="{{url_for('static', filename='core-img/logo2.png')}}" alt=""></a>
                         </div>
                         <!-- Copywrite Text -->
                         <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -182,11 +146,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </div>
     </footer>
     <!-- ##### Footer Area End ##### -->
+    {% block scripts %}    
+        <script src="{{url_for('static', filename='js/jquery/jquery-2.2.4.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+        <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
+        <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/active.js') }}"></script>
+    {% endblock scripts %}
 {% endblock body %}
-
-{% block scripts %}
-	{{ super() }}
-	<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/active.js') }}"></script>
-{% endblock scripts %}

@@ -3,7 +3,7 @@ from flask import render_template, session, redirect, url_for, g
 from . import main
 from .forms import SearchForm
 from .. import db
-from ..models import Producto
+from ..models import Producto, Categoria
 
 
 @main.before_app_request
@@ -15,8 +15,10 @@ def before_request():
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', name=session.get('name'),
-        known=session.get('known', False), current_time=datetime.utcnow())
+    categorias = Categoria.query.all()
+    return render_template('index.html', name=session.get('name', False),
+        known=session.get('known', False), current_time=datetime.utcnow(),
+        categorias=categorias)
 
 
 
@@ -25,8 +27,18 @@ def producto(slug):
     producto = Producto.query.filter_by(slug=slug).first()
     if producto is None:
         abort(404)
-    stars = (int(producto.condicion)/2,round(producto.condicion%2))
-    return render_template('product.html', producto=producto, stars = stars)
+    return render_template('product.html', producto=producto)
+
+
+
+@main.route('/categoria/<slug>')
+def categoria(slug):
+    categoria = Categoria.query.filter_by(slug=slug).first()
+    categorias = Categoria.query.all()
+    if categoria is None:
+        abort(404)
+    return render_template('categoria.html',categoria=categoria, categorias=categorias)
+
 
 
 

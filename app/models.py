@@ -19,13 +19,21 @@ class Marca(db.Model):
     def __repr__(self):
         return '<Marca %r>' % self.id
 
+productoCategorias = db.Table('productos_x_categoria',
+    db.Column('producto_id', db.Integer, db.ForeignKey('productos.id'), primary_key=True),
+    db.Column('categoria_id', db.Integer, db.ForeignKey('categorias.id'), primary_key=True),    
+)
+
 class Categoria(db.Model):
     __tablename__ = 'categorias'
     id = db.Column(db.Integer, primary_key = True)
     nombre = db.Column(db.String(100), nullable = False)
+    slug = db.Column(db.String(100), nullable = False, unique=True)
     peq_desc = db.Column(db.String(250))
     imagen = db.Column(db.String(120), nullable = False)
-    estado = db.Column(db.Enum(Marca), nullable = False, default = EstadoCatalogo.ACTIVO)
+    estado = db.Column(db.Enum(EstadoCatalogo), nullable = False, default = EstadoCatalogo.ACTIVO)
+    productos = db.relationship('Producto', secondary=productoCategorias, lazy='subquery',
+        backref=db.backref('productos', lazy='dynamic'))
     def __repr__(self):
         return '<Categoria %r>' % self.nombre
 
@@ -42,18 +50,15 @@ class Producto(db.Model):
     marca_id = db.Column(db.Integer, db.ForeignKey('marcas.id'))
     imagenes = db.relationship('Imagen', backref='producto', lazy='dynamic')
     visitas = db.relationship('Visita', backref='producto', lazy='dynamic')
+    categorias = db.relationship('Categoria', secondary=productoCategorias, lazy='subquery',
+        backref=db.backref('categorias', lazy='dynamic'))
+
+    def estrellas(self):
+        return (int(self.condicion)/2,round(self.condicion%2))
 
     def __repr__(self):
         return '<Producto %r>' % self.id
 
-class ProductoCategoria(db.Model):
-    __tablename__ = 'productos_x_categoria'
-    id = db.Column(db.Integer, primary_key = True)
-    producto_id = db.Column(db.Integer, db.ForeignKey('productos.id'))
-    categoria_id = db.Column(db.Integer, db.ForeignKey('categorias.id'))
-
-    def __repr__(self):
-        return '<ProductoCategoria %r>' % self.id
 
 class Imagen(db.Model):
     __tablename__ = 'imagenes'

@@ -7,8 +7,8 @@
                 {% for categoria in categorias %}
                 <!-- Single Catagory -->
                 <div class="single-products-catagory clearfix">
-                    <a href="{{url_for('categoria')}}">
-                        {% %}
+                    <a href="{{url_for('main.categoria',slug=categoria.slug)}}">
+                        
                         <img src="{{url_for('static',filename='categorias/'+categoria.imagen)}}" alt="{{categoria.peq_desc}}">
                         <!-- Hover Content -->
                         <div class="hover-content">
