@@ -97,7 +97,13 @@
                 </div>
 
                 <div class="row">
+                    {% if not (categoria.productos is defined and categoria.productos[0] is defined) %}
+                    <div>
+                            <h2>Lo sentimos, esta categoria no tiene productos asociados</h2>
+                        </div>
+                    {% else %}    
                     {% for producto in categoria.productos %}
+                    
                     <!-- Single Product Area -->
                     <div class="col-12 col-sm-6 col-md-12 col-xl-6">
                         <div class="single-product-wrapper">
@@ -141,6 +147,8 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% endif %}
+                    
                 </div>
 
                 <div class="row">
