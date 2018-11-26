@@ -102,12 +102,13 @@
                     <div class="col-12 col-sm-6 col-md-12 col-xl-6">
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
-                            <div class="product-img">
-                                <img src="{{url_for('static',filename='productos/' + producto.imagenes.filter_by(primaria=True).first().ruta)}}" alt="">
-                                <!-- Hover Thumb -->
-                                <img class="hover-img" src="{{url_for('static',filename='productos/' + producto.imagenes.filter_by(primaria=False).first().ruta)}}" alt="">
-                            </div>
-
+                            <a href="{{url_for('main.producto', slug=producto.slug)}}">
+                                <div class="product-img">
+                                    <img src="{{url_for('static',filename='productos/' + producto.imagenes.filter_by(primaria=True).first().ruta)}}" alt="">
+                                    <!-- Hover Thumb -->
+                                    <img class="hover-img" src="{{url_for('static',filename='productos/' + producto.imagenes.filter_by(primaria=False).first().ruta)}}" alt="">
+                                </div>
+                            </a>
                             <!-- Product Description -->
                             <div class="product-description d-flex align-items-center justify-content-between">
                                 <!-- Product Meta Data -->

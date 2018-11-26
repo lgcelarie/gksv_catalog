@@ -65,7 +65,7 @@
             </div>
             <!-- Logo -->
             <div class="logo">
-                <a href="{{url_for('main.index')}}"><img src="{{ url_for('static', filename='core-img/logo.png') }}" alt=""></a>
+                <a href="{{url_for('main.index')}}"><img src="{{ url_for('static', filename='core-img/logo2.png') }}" alt=""></a>
             </div>
             <!-- Amado Nav -->
             <nav class="amado-nav">
@@ -149,7 +149,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     {% block scripts %}    
         <script src="{{url_for('static', filename='js/jquery/jquery-2.2.4.min.js')}}"></script>
         <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-        <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script>
+        <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+        <!-- <script src="{{bootstrap_find_resource('js/bootstrap.js', cdn='bootstrap')}}"></script> -->
         <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
         <script src="{{ url_for('static', filename='js/active.js') }}"></script>
     {% endblock scripts %}
