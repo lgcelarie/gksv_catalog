@@ -39,7 +39,7 @@ def categoria(slug):
         abort(404)
 
     page = request.args.get('page', 1, type=int)
-    productos = categoria.productos.paginate(page,20,False)
+    productos = Producto.query.with_parent(categoria).paginate(page,20,False)
     next_url = url_for('main.categoria', slug=categoria.slug, page=productos.next_num) \
         if productos.has_next else None
     prev_url = url_for('main.categoria', slug=categoria.slug, page=productos.prev_num) \

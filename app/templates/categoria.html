@@ -109,10 +109,15 @@
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
                             <a href="{{url_for('main.producto', slug=producto.slug)}}">
+                                
                                 <div class="product-img">
+                                    {% if producto.imagenes is defined and producto.imagenes[0] is defined %}
                                     <img src="{{url_for('static',filename='productos/' + producto.imagenes.filter_by(primaria=True).first().ruta)}}" alt="">
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="{{url_for('static',filename='productos/' + producto.imagenes.filter_by(primaria=False).first().ruta)}}" alt="">
+                                    {% else %}
+                                        <img src="{{url_for('static',filename='productos/placeholder.png')}}" alt="">
+                                    {% endif %}
                                 </div>
                             </a>
                             <!-- Product Description -->
