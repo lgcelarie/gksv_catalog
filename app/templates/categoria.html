@@ -19,38 +19,38 @@
             </div>
 
             <!-- ##### Single Widget ##### -->
-            <div class="widget brands mb-50">
-                <!-- Widget Title -->
+            <!-- <div class="widget brands mb-50">
+                
                 <h6 class="widget-title mb-30">Brands</h6>
 
                 <div class="widget-desc">
-                    <!-- Single Form Check -->
+                    
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="amado">
                         <label class="form-check-label" for="amado">Amado</label>
                     </div>
-                    <!-- Single Form Check -->
+                   
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="ikea">
                         <label class="form-check-label" for="ikea">Ikea</label>
                     </div>
-                    <!-- Single Form Check -->
+                   
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="furniture">
                         <label class="form-check-label" for="furniture">Furniture Inc</label>
                     </div>
-                    <!-- Single Form Check -->
+                   
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="factory">
                         <label class="form-check-label" for="factory">The factory</label>
                     </div>
-                    <!-- Single Form Check -->
+                    
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="artdeco">
                         <label class="form-check-label" for="artdeco">Artdeco</label>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
 
@@ -62,32 +62,25 @@
                         <div class="product-topbar d-xl-flex align-items-end justify-content-between">
                             <!-- Total Products -->
                             <div class="total-products">
-                                <p>Mostrando 1-8 de 25</p>
-                                <div class="view d-flex">
-                                    <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-bars" aria-hidden="true"></i></a>
-                                </div>
+                                <p>Mostrando 
+                                {% if productos.per_page*productos.page < productos.total %}
+                                    {{productos.per_page*productos.page}} 
+                                {% else %}
+                                    {{productos.total}}
+                                {% endif %}
+                                de {{productos.total}}
+                            </p>
                             </div>
                             <!-- Sorting -->
                             <div class="product-sorting d-flex">
-                                <div class="sort-by-date d-flex align-items-center mr-15">
-                                    <p>Sort by</p>
-                                    <form action="#" method="get">
-                                        <select name="select" id="sortBydate">
-                                            <option value="value">Date</option>
-                                            <option value="value">Newest</option>
-                                            <option value="value">Popular</option>
-                                        </select>
-                                    </form>
-                                </div>
                                 <div class="view-product d-flex align-items-center">
                                     <p>View</p>
-                                    <form action="#" method="get">
-                                        <select name="select" id="viewProduct">
-                                            <option value="value">12</option>
-                                            <option value="value">24</option>
-                                            <option value="value">48</option>
-                                            <option value="value">96</option>
+                                    <form action="#" method="get" id="sizeForm">
+                                        <select name="size" id="viewProduct">
+                                            <option value="20">20</option>
+                                            <option value="40">40</option>
+                                            <option value="60">60</option>
+                                            <option value="80">80</option>
                                         </select>
                                     </form>
                                 </div>
@@ -101,8 +94,9 @@
                     <div>
                             <h2>Lo sentimos, esta categoria no tiene productos asociados</h2>
                         </div>
-                    {% else %}    
-                    {% for producto in categoria.productos %}
+                    {% else %}
+                    {{productos.total_pages}}    
+                    {% for producto in productos.items %}
                     
                     <!-- Single Product Area -->
                     <div class="col-12 col-sm-6 col-md-12 col-xl-6">
@@ -127,7 +121,7 @@
                                     <div class="line"></div>
                                     <p class="product-price">$180</p>
                                     <a href="{{url_for('main.producto',slug=producto.slug)}}">
-                                        <h6>{{producto.nombre | truncate(50,False,'...',0)}}</h6>
+                                        <h6>{{producto.nombre | truncate(50,False,'...',0)}} {{productos.total_pages}}  </h6>
                                     </a>
                                 </div>
                                 <!-- Ratings & Cart -->
@@ -173,3 +167,11 @@
         </div>
     </div>
     {% endblock %}
+    {% block scripts %}
+        {{super()}}
+        <script type="text/javascript">
+            $('#viewProduct').on('change', function(){
+                $('#sizeForm').submit();
+            })
+        </script>
+    {% endblock scripts%}
