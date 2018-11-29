@@ -3,7 +3,7 @@ from flask import render_template, session, redirect, url_for, g, request
 from . import main
 from .forms import SearchForm
 from .. import db
-from ..models import Producto, Categoria
+from ..models import Producto, Categoria, Visita
 
 
 @main.before_app_request
@@ -27,6 +27,9 @@ def producto(slug):
     producto = Producto.query.filter_by(slug=slug).first()
     if producto is None:
         abort(404)
+    import datetime
+    visita = Visita(ip=request.environ.get('HTTP_X_REAL_IP', request.remote_addr),
+        fecha=datetime.datetime.utcnow(),producto_id=producto.id)
     return render_template('product.html', producto=producto)
 
 
@@ -39,7 +42,8 @@ def categoria(slug):
         abort(404)
 
     page = request.args.get('page', 1, type=int)
-    productos = Producto.query.with_parent(categoria).paginate(page,20,False)
+    size = request.args.get('size', 20, type=int)
+    productos = Producto.query.with_parent(categoria).paginate(page,size,False)
     next_url = url_for('main.categoria', slug=categoria.slug, page=productos.next_num) \
         if productos.has_next else None
     prev_url = url_for('main.categoria', slug=categoria.slug, page=productos.prev_num) \
