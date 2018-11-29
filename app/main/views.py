@@ -24,9 +24,7 @@ def index():
 
 @main.route('/producto/<slug>')
 def producto(slug):
-    producto = Producto.query.filter_by(slug=slug).first()
-    if producto is None:
-        abort(404)
+    producto = Producto.query.filter_by(slug=slug).first_or_404()
     import datetime
     visita = Visita(ip=request.environ.get('HTTP_X_REAL_IP', request.remote_addr),
         fecha=datetime.datetime.utcnow(),producto_id=producto.id)
@@ -36,10 +34,9 @@ def producto(slug):
 
 @main.route('/categoria/<slug>')
 def categoria(slug):
-    categoria = Categoria.query.filter_by(slug=slug).first()
+    categoria = Categoria.query.filter_by(slug=slug).first_or_404()
     categorias = Categoria.query.all()
-    if categoria is None:
-        abort(404)
+
 
     page = request.args.get('page', 1, type=int)
     size = request.args.get('size', 20, type=int)

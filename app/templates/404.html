@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Geekingdom SV - Pagina no encontrada{% endblock %}
 {% block page_content %}
-<div class="page-header">
-	<h1>Error 404: Elemento no encontrado!</h1>
-	<p>Lo sentimos, el elemento al que intentaste acceder no existe, puedes
-	 regresar a la <a href="{{ url_for('index')}}">pagina principal</a>, o <a href="{{url_for('search')}}">iniciar una nueva busqueda</a>!</p>
-</div>
+<div class="single-product-area section-padding-100 clearfix">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                    	<h1>Error 404: Elemento no encontrado!</h1>
+						<p>Lo sentimos, el elemento al que intentaste acceder no existe, puedes regresar a la <a href="{{ url_for('main.index')}}">pagina principal</a>, o <a href="{{url_for('main.search')}}">iniciar una nueva busqueda</a>!
+						</p>
+					</div>
+				</div>
+			</div>
+</div>	
 {% endblock %}
