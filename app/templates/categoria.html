@@ -160,8 +160,8 @@
                                 {% else %}
                                     <li class="page-item"><a href="{{prev_url}}">Ant.</a></li>
                                 {% endif %}
-                                {% for i in range(productos.page-2,productos.page+2) %}
-                                    <li class="page-item {% if i == productos.page %} active {% endif %}"><a class="page-link" href="#">01.</a></li>
+                                {% for i in range(productos.page-2,productos.page+2) if not (i < 1 or i > productos.pages) %}
+                                    <li class="page-item {% if i == productos.page %} active {% endif %}"><a class="page-link" href="{{url_for('main.categoria',slug=categoria.slug,page=i)}}">{{i}}</a></li>
                                 {% endfor %}
                                 {% if productos.page == productos.pages %}
                                     <li class="page-item">Sig.</li>
