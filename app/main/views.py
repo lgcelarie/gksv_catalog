@@ -3,7 +3,7 @@ from flask import render_template, session, redirect, url_for, g, request
 from . import main
 from .forms import SearchForm
 from .. import db
-from ..models import Producto, Categoria, Visita
+from ..models import Producto, Categoria, Visita, Marca
 
 
 @main.before_app_request
@@ -16,9 +16,10 @@ def before_request():
 @main.route('/', methods=['GET', 'POST'])
 def index():
     categorias = Categoria.query.all()
+    marcas = Marca.query.all()
     return render_template('index.html', name=session.get('name', False),
         known=session.get('known', False), current_time=datetime.utcnow(),
-        categorias=categorias)
+        categorias=categorias, marcas=marcas)
 
 
 
@@ -49,6 +50,23 @@ def categoria(slug):
     return render_template('categoria.html',categoria=categoria, categorias=categorias,
         productos=productos, next_url=next_url, prev_url=prev_url)
 
+
+@main.route('/marca/<slug>')
+def marca(slug):
+    marca = Marca.query.filter_by(slug=slug).first_or_404()
+    marcas = Marca.query.all()
+
+
+    page = request.args.get('page', 1, type=int)
+    size = request.args.get('size', 20, type=int)
+    productos = Producto.query.with_parent(marca).paginate(page,size,False)
+    next_url = url_for('main.marca', slug=marca.slug, page=productos.next_num) \
+        if productos.has_next else None
+    prev_url = url_for('main.marca', slug=marca.slug, page=productos.prev_num) \
+        if productos.has_prev else None
+
+    return render_template('marca.html',marca=marca, marcas=marcas,
+        productos=productos, next_url=next_url, prev_url=prev_url)
 
 
 
