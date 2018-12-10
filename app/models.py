@@ -13,6 +13,7 @@ class EstadoCatalogo(enum.Enum):
 
 class Marca(db.Model):
     __tablename__ = 'marcas'
+    __searchable__ = ['nombre']
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), index = True, nullable = False)
     slug = db.Column(db.String(100), nullable = False, unique=True)
@@ -28,6 +29,7 @@ productoCategorias = db.Table('productos_x_categoria',
 
 class Categoria(db.Model):
     __tablename__ = 'categorias'
+    __searchable__ = ['nombre']
     id = db.Column(db.Integer, primary_key = True)
     nombre = db.Column(db.String(100), nullable = False)
     slug = db.Column(db.String(100), nullable = False, unique=True)
@@ -41,6 +43,7 @@ class Categoria(db.Model):
 
 class Producto(db.Model):
     __tablename__ = 'productos'
+    __searchable__ = ['nombre','peq_desc','descripcion']
     id = db.Column(db.Integer, primary_key = True)
     slug = db.Column(db.String(100), nullable = False, unique=True)
     nombre = db.Column(db.String(100), nullable = False)
