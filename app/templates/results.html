@@ -61,56 +61,10 @@
                             <h2>Lo sentimos, esta marca no tiene productos asociados</h2>
                         </div>
                     {% else %}
-                    {{productos.total_pages}}    
+                    {{productos.total_pages}} 
+                    {% import "_producto.html" as vista_producto %}   
                     {% for producto in productos.items %}
-                    
-                    <!-- Single Product Area -->
-                    <div class="col-12 col-sm-6 col-md-12 col-xl-6">
-                        <div class="single-product-wrapper">
-                            <!-- Product Image -->
-                            <a href="{{url_for('main.producto', slug=producto.slug)}}">
-                                
-                                <div class="product-img">
-                                    {% if producto.imagenes is defined and producto.imagenes[0] is defined %}
-                                    <img src="{{url_for('static',filename='productos/' + producto.imagenes.filter_by(primaria=True).first().ruta)}}" alt="">
-                                    <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{url_for('static',filename='productos/' + producto.imagenes.filter_by(primaria=False).first().ruta)}}" alt="">
-                                    {% else %}
-                                        <img src="{{url_for('static',filename='productos/placeholder.png')}}" alt="">
-                                    {% endif %}
-                                </div>
-                            </a>
-                            <!-- Product Description -->
-                            <div class="product-description d-flex align-items-center justify-content-between">
-                                <!-- Product Meta Data -->
-                                <div class="product-meta-data">
-                                    <div class="line"></div>
-                                    <p class="product-price">$180</p>
-                                    <a href="{{url_for('main.producto',slug=producto.slug)}}">
-                                        <h6>{{producto.nombre | truncate(50,False,'...',0)}} {{productos.total_pages}}  </h6>
-                                    </a>
-                                </div>
-                                <!-- Ratings & Cart -->
-                                <div class="ratings-cart text-right">
-                                    <div class="ratings">
-                                        {% with stars = producto.estrellas() %}
-                                            {% for i in range(stars[0] | int) %} 
-                                                <i class="fa fa-star" aria-hidden="true"></i> 
-                                            {% endfor %} 
-                                            {% if stars[1] > 0 %}
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            {% else %}
-                                                <i class="fa fa-star-empty" aria-hidden="true"></i>  
-                                            {% endif %}
-                                        {% endwith %}
-                                    </div>
-                                    <div class="cart">
-                                        <a href="cart.html" data-toggle="tooltip" data-placement="left" title="Add to Cart"><img src="{{url_for('static', filename='core-img/cart.png')}}" alt=""></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        {{ vista_producto.product_list_item(producto) }}
                     {% endfor %}
                     {% endif %}
                     

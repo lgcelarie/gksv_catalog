@@ -13,6 +13,11 @@ class Config:
 
 
 class DevelopmentConfig(Config):
+    MSEARCH_INDEX_NAME = 'whoosh_index'
+    # simple,whoosh
+    MSEARCH_BACKEND = 'whoosh'
+    # auto create or update index
+    MSEARCH_ENABLE = True
     DEBUG = True
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
