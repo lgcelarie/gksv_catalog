@@ -1,24 +1,27 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-    <h1>{{ _('Resultados de tu busqueda') }}</h1>
-    {% for post in posts %}
-        {% include '_producto.html' %}
-    {% endfor %}
-    <nav aria-label="...">
-        <ul class="pager">
-            <li class="anterior{% if not prev_url %} disabled{% endif %}">
-                <a href="{{ prev_url or '#' }}">
-                    <span aria-hidden="true">&larr;</span>
-                    {{ _('Resultados anteriores') }}
-                </a>
-            </li>
-            <li class="siguiente{% if not next_url %} disabled{% endif %}">
-                <a href="{{ next_url or '#' }}">
-                    {{ _('Siguientes resultados') }}
-                    <span aria-hidden="true">&rarr;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <div class="amado_product_area section-padding-100">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product-topbar d-xl-flex align-items-end justify-content-between">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% if not (productos is defined and productos[0] is defined) %}
+                    <div>
+                            <h2>Lo sentimos, tu busqueda no obtuvo resultados :/ </h2>
+                        </div>
+                    {% else %}
+                        {% for producto in productos.items %}
+                            {% include "_producto.html"%}
+                        {% endfor %}
+                    {% endif %}
+                    
+                </div>
+            </div>
+    </div>
 {% endblock %}
