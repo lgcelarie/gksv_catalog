@@ -25,3 +25,35 @@ manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
     manager.run()
+
+@manager.command
+def cargar_productos(file):
+	import csv
+
+	with open(file) as csvfile:
+		lector = csv.DictReader(csvfile)
+		for row in lector:
+			producto = models.Producto
+			producto.id = row['id']
+			producto.nombre = row['nombre']
+			producto.slug = row['nombre'].replace(' ','-')
+			producto.descripcion = row['descripcion']
+			producto.peq_desc = row['descripcion'][:150]
+			producto.marca_id = row['marca']
+			producto.estado = row['estado']
+			producto.condicion = row['condicion']
+			producto.cant_visto = 0
+			db.session.add(producto)
+
+			for i in range(1,7):
+				imagen = models.Imagen
+				if i == 1:
+					imagen.primaria = 1
+				else:
+					imagen.primaria = 0
+				imagen.ruta = row['id'] + '_' + i + '.jpg'
+				producto.imagenes.append(imagen)
+				db.add(imagen)
+		db.session.commit()
+
+
