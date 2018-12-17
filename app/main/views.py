@@ -75,7 +75,7 @@ def search():
     if not g.search_form.validate():
         return redirect(url_for('main.explore'))
     page = request.args.get('page', 1, type=int)
-    results = Producto.query.msearch(g.search_form.q.data, fields=['nombre','descripcion'])
+    results = Producto.query.msearch(g.search_form.q.data, fields=['nombre','descripcion']).all()
     # posts, total = Producto.query.msearch(g.search_form.q.data, page,
     #                            20)
     # next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \

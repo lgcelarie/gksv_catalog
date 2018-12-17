@@ -16,7 +16,7 @@
                             <h2>Lo sentimos, tu busqueda no obtuvo resultados :/ </h2>
                         </div>
                     {% else %}
-                        {% for producto in productos.items %}
+                        {% for producto in productos %}
                             {% include "_producto.html"%}
                         {% endfor %}
                     {% endif %}
