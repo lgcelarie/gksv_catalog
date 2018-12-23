@@ -86,4 +86,9 @@ class Visita(db.Model):
 
     def __repr__(self):
         return '<Visita %r>' % self.id
+
+class Usuario(db.Model):
+    __tablename__ = "usuarios"
+    id = db.Column(db.Integer, primary_key = True)
+    # password_hash = 
         

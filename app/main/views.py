@@ -29,6 +29,8 @@ def producto(slug):
     import datetime
     visita = Visita(ip=request.environ.get('HTTP_X_REAL_IP', request.remote_addr),
         fecha=datetime.datetime.utcnow(),producto_id=producto.id)
+    db.session.add(visita)
+    db.session.commit()
     return render_template('product.html', producto=producto)
 
 
@@ -76,6 +78,7 @@ def search():
         return redirect(url_for('main.explore'))
     page = request.args.get('page', 1, type=int)
     results = Producto.query.msearch(g.search_form.q.data, fields=['nombre','descripcion']).all()
+    #results = Producto.query.msearch(g.search_form.q.data, fields=['nombre','descripcion']).paginate(page,20,False)
     # posts, total = Producto.query.msearch(g.search_form.q.data, page,
     #                            20)
     # next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \
@@ -84,6 +87,11 @@ def search():
     #     if page > 1 else None
     return render_template('search.html', title='Search', productos=results,
                            )
+
+@main.route('/login', methods=['GET', 'POST'])
+def login():
+    return False
+
 
 @main.route('/load')
 def cargar_productos():
