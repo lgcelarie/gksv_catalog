@@ -1,9 +1,10 @@
 from datetime import datetime
 from flask import render_template, session, redirect, url_for, g, request
+from flask_login import current_user, login_user
 from . import main
-from .forms import SearchForm
+from .forms import SearchForm, LoginForm
 from .. import db
-from ..models import Producto, Categoria, Visita, Marca
+from ..models import Producto, Categoria, Visita, Marca, Administrador
 
 
 @main.before_app_request
@@ -90,7 +91,17 @@ def search():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-    return False
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = Administrador.query.filter_by(email=form.email.data).first()
+        if user is None or not user.check_password(form.password.data):
+            flash('Usuario invalido')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        return redirect(url_for('dashboard'))
+    return render_template('login.html', title='Iniciar Sesion', form=form)
 
 
 @main.route('/load')
