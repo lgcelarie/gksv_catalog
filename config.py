@@ -41,7 +41,7 @@ class ProductionConfig(Config):
     DB_DEFAULT_USER_PASS = 'aFm894FD'
     DB_DEFAULT_HOST = 'mysql.geekingdom.sv'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-    'mysql://' + DB_DEFAULT_USER ':' + DB_DEFAULT_USER_PASS + '@' + DB_DEFAULT_HOST + '/gksvcat_db'
+    'mysql://' + DB_DEFAULT_USER + ':' + DB_DEFAULT_USER_PASS + '@' + DB_DEFAULT_HOST + '/gksvcat_db'
 
 config = {
     'development': DevelopmentConfig,
