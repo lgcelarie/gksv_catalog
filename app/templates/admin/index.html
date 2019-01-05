@@ -1,0 +1,25 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+	<div>
+		<h3>Top 10 productos mas visitados el dia de hoy</h3>
+		<table class="table table-responsive">
+			<thead>
+				<td>ID</td>
+				<td>Nombre</td>
+				<td>visto</td>
+			</thead>
+			<tbody>
+				{% if productos is defined %}
+					{% for prod in productos.items %}
+						<tr>
+							<td>{{prod.id}}</td>
+							<td>{{prod.nombre}}</td>
+							<td></td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

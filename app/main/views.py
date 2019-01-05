@@ -29,7 +29,7 @@ def producto(slug):
     producto = Producto.query.filter_by(slug=slug).first_or_404()
     import datetime
     visita = Visita(ip=request.environ.get('HTTP_X_REAL_IP', request.remote_addr),
-        fecha=datetime.datetime.utcnow(),producto_id=producto.id)
+        fecha=datetime.datetime.now(),producto_id=producto.id)
     db.session.add(visita)
     db.session.commit()
     return render_template('product.html', producto=producto)
