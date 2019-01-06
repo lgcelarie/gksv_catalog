@@ -24,11 +24,11 @@ class DevelopmentConfig(Config):
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    DB_DEFAULT_USER = 'root'
+    DB_DEFAULT_USER = 'gk_usr' # 'root'
     DB_DEFAULT_USER_PASS = 'peuGEOT2812'
     DB_DEFAULT_HOST = 'localhost'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-    'mysql://' + DB_DEFAULT_USER + ':' + DB_DEFAULT_USER_PASS + '@' + DB_DEFAULT_HOST + '/gksvcat_db'
+    'mysql://' + DB_DEFAULT_USER + ':' + DB_DEFAULT_USER_PASS + '@' + DB_DEFAULT_HOST + '/gksvcat_dev_db'
 
 class TestingConfig(Config):
     TESTING = True

@@ -11,11 +11,12 @@
 			</thead>
 			<tbody>
 				{% if productos is defined %}
-					{% for prod in productos.items %}
+					{{productos}}
+					{% for prod in productos %}
 						<tr>
-							<td>{{prod.id}}</td>
-							<td>{{prod.nombre}}</td>
-							<td></td>
+							<td>{{prod[0]}}</td>
+							<td>{{prod[1]}}</td>
+							<td>{{prod[2]}}</td>
 						</tr>
 					{% endfor %}
 				{% endif %}
