@@ -6,8 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 from config import config
 from flask_login import LoginManager
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
-
+# from flask_admin.contrib.sqla import ModelView
+from .admin_views import DashboardView, ProductoView, MarcaView, CategoriaView
 
 
 bootstrap = Bootstrap()
@@ -15,7 +15,7 @@ mail = Mail()
 moment = Moment()
 db = SQLAlchemy()
 login = LoginManager()
-from .admin_views import DashboardView
+
 admin = Admin(name='Geekingdom SV Admin', template_mode='bootstrap3', index_view=DashboardView())
 # Add administrative views here
 
@@ -32,10 +32,9 @@ def create_app(config_name):
     app.config['FLASK_ADMIN_SWATCH'] = 'slate'
     admin.init_app(app)
     from . import models
-    admin.add_view(ModelView(models.Producto, db.session))
-    admin.add_view(ModelView(models.Marca, db.session))
-    admin.add_view(ModelView(models.Categoria, db.session))    
-    #admin.add_view(DashboardView(name='Dashboard')) 
+    admin.add_view(ProductoView(models.Producto, db.session))
+    admin.add_view(MarcaView(models.Marca, db.session))
+    admin.add_view(CategoriaView(models.Categoria, db.session))    
     # attach routes and custom error pages here
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
