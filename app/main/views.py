@@ -40,10 +40,14 @@ def producto(slug):
 def categoria(slug):
     categoria = Categoria.query.filter_by(slug=slug).first_or_404()
     categorias = Categoria.query.all()
-
+    if not session.get('page_size'):
+        session['page_size'] = 20
 
     page = request.args.get('page', 1, type=int)
-    size = request.args.get('size', 20, type=int)
+    size = request.args.get('page_size', session['page_size'], type=int)
+
+    if size != session['page_size']:
+        session['page_size'] = size
     productos = Producto.query.with_parent(categoria).paginate(page,size,False)
     next_url = url_for('main.categoria', slug=categoria.slug, page=productos.next_num) \
         if productos.has_next else None
@@ -51,17 +55,22 @@ def categoria(slug):
         if productos.has_prev else None
 
     return render_template('categoria.html',categoria=categoria, categorias=categorias,
-        productos=productos, next_url=next_url, prev_url=prev_url)
+        productos=productos, next_url=next_url, prev_url=prev_url, page_size= size)
 
 
 @main.route('/marca/<slug>')
 def marca(slug):
     marca = Marca.query.filter_by(slug=slug).first_or_404()
     marcas = Marca.query.all()
-
+    if not session.get('page_size'):
+        session['page_size'] = 20
 
     page = request.args.get('page', 1, type=int)
-    size = request.args.get('size', 20, type=int)
+    size = request.args.get('page_size', 20, type=int)
+
+    if size != session['page_size']:
+        session['page_size'] = size
+
     productos = Producto.query.with_parent(marca).paginate(page,size,False)
     next_url = url_for('main.marca', slug=marca.slug, page=productos.next_num) \
         if productos.has_next else None
@@ -69,7 +78,7 @@ def marca(slug):
         if productos.has_prev else None
 
     return render_template('marca.html',marca=marca, marcas=marcas,
-        productos=productos, next_url=next_url, prev_url=prev_url)
+        productos=productos, next_url=next_url, prev_url=prev_url, page_size= size)
 
 
 
@@ -86,7 +95,7 @@ def search():
     #     if total > page * 20 else None
     # prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) \
     #     if page > 1 else None
-    return render_template('search.html', title='Search', productos=results,
+    return render_template('search.html', title='Search', productos=results, cadena=g.search_form.q.data
                            )
 
 @main.route('/login', methods=['GET', 'POST'])

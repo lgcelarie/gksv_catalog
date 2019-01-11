@@ -1,0 +1,12 @@
+<div class="product-sorting d-flex">
+    <div class="view-product d-flex align-items-center">
+        <p>Ver</p>
+        <form action="{{request.path}}" method="get" id="sizeForm">
+            <select name="page_size" id="viewProduct">
+                {% for i in [20,40,60,80] %}
+                    <option value="{{i}}" {% if i == page_size %} selected="selected" {% endif%} >{{i}}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</div>

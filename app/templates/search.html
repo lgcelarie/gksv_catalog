@@ -16,6 +16,7 @@
                             <h2>Lo sentimos, tu busqueda no obtuvo resultados :/ </h2>
                         </div>
                     {% else %}
+                        <p>Mostrando resultados para "{{cadena}}"</p>
                         {% for producto in productos %}
                             {% include "_producto.html"%}
                         {% endfor %}
