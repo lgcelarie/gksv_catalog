@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import render_template, session, redirect, url_for, g, request
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user, login_required
 from . import main
 from .forms import SearchForm, LoginForm
 from .. import db
@@ -109,11 +109,21 @@ def login():
             flash('Usuario invalido')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('dashboard'))
+        next_page = request.args.get('next')
+        if not next_page or url_parse(next_page).netloc != '.':
+            next_page = url_for('admin.dashboard')
+        return redirect(next_page)
     return render_template('login.html', title='Iniciar Sesion', form=form)
 
 
+@main.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('main.index'))
+
+
 @main.route('/load')
+@login_required
 def cargar_productos():
     import csv
     from ..models import Imagen

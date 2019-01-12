@@ -7,7 +7,7 @@ from config import config
 from flask_login import LoginManager
 from flask_admin import Admin
 # from flask_admin.contrib.sqla import ModelView
-from .admin_views import DashboardView, ProductoView, MarcaView, CategoriaView
+
 
 
 bootstrap = Bootstrap()
@@ -15,7 +15,7 @@ mail = Mail()
 moment = Moment()
 db = SQLAlchemy()
 login = LoginManager()
-
+from .admin_views import DashboardView, ProductoView, MarcaView, CategoriaView
 admin = Admin(name='Geekingdom SV Admin', template_mode='bootstrap3', index_view=DashboardView())
 # Add administrative views here
 
@@ -28,6 +28,7 @@ def create_app(config_name):
     moment.init_app(app)
     db.init_app(app)
     login.init_app(app)
+    login.login_view = 'login'
     # set optional bootswatch theme
     app.config['FLASK_ADMIN_SWATCH'] = 'slate'
     admin.init_app(app)
