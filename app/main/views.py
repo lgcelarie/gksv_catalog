@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask import render_template, session, redirect, url_for, g, request
 from flask_login import current_user, login_user, logout_user, login_required
+from werkzeug.urls import url_parse
 from . import main
 from .forms import SearchForm, LoginForm
 from .. import db
@@ -111,7 +112,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '.':
-            next_page = url_for('admin.dashboard')
+            next_page = url_for('admin.index')
         return redirect(next_page)
     return render_template('login.html', title='Iniciar Sesion', form=form)
 
