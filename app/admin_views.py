@@ -1,4 +1,5 @@
 from flask_admin import BaseView, expose, AdminIndexView
+from flask_admin.menu import MenuLink
 from flask_admin.contrib.sqla import ModelView
 from sqlalchemy.sql import text 
 from flask import redirect, request, url_for
@@ -32,4 +33,7 @@ class MarcaView(GKModelView):
 
 class CategoriaView(GKModelView):
 	column_searchable_list = ['nombre', 'peq_desc']
-		
+
+class LogoutMenuLink(MenuLink):
+    def is_accessible(self):
+        return login.current_user.is_authenticated

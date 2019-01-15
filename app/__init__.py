@@ -15,7 +15,7 @@ mail = Mail()
 moment = Moment()
 db = SQLAlchemy()
 login = LoginManager()
-from .admin_views import DashboardView, ProductoView, MarcaView, CategoriaView
+from .admin_views import DashboardView, ProductoView, MarcaView, CategoriaView, LogoutMenuLink
 admin = Admin(name='Geekingdom SV Admin', template_mode='bootstrap3', index_view=DashboardView())
 # Add administrative views here
 
@@ -35,7 +35,8 @@ def create_app(config_name):
     from . import models
     admin.add_view(ProductoView(models.Producto, db.session))
     admin.add_view(MarcaView(models.Marca, db.session))
-    admin.add_view(CategoriaView(models.Categoria, db.session))    
+    admin.add_view(CategoriaView(models.Categoria, db.session)) 
+    admin.add_link(LogoutMenuLink(name='Logout', endpoint='main.logout'))   
     # attach routes and custom error pages here
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
