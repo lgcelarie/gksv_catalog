@@ -40,7 +40,16 @@
                                         {% endwith %}
                                     </div>
                                     <div class="cart">
-                                        
+                                        <p class="avaibility">
+                                    {% if producto.estado.value == 'DISPONIBLE' %}
+                                        <i class="fa fa-circle" style="color: #20d34a"></i>
+                                    {% elif producto.estado.value == 'RESERVADO'%}
+                                        <i class="fa fa-circle orange" style="color: orange"></i>
+                                    {% else %}
+                                        <i class="fa fa-circle red" style="color: red"></i>
+                                    {% endif %} 
+                                    {{producto.estado.value}}                                   
+                                </p>
                                     </div>
                                 </div>
                             </div>

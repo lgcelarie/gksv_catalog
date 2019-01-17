@@ -76,12 +76,12 @@
                                 </div>
                                 <!-- Avaiable -->
                                 <p class="avaibility">
-                                    {% if producto.estado == 'DISPONIBLE' %}
+                                    {% if producto.estado.value == 'DISPONIBLE' %}
                                         <i class="fa fa-circle"></i>
-                                    {% elif producto.estado == 'RESERVADO'%}
-                                        <i class="fa fa-circle orange"></i>
+                                    {% elif producto.estado.value == 'RESERVADO'%}
+                                        <i class="fa fa-circle orange" style="color: orange"></i>
                                     {% else %}
-                                        <i class="fa fa-circle red"></i>
+                                        <i class="fa fa-circle red" style="color: red"></i>
                                     {% endif %} 
                                     {{producto.estado.value}}                                   
                                 </p>
