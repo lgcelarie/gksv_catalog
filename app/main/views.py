@@ -128,7 +128,7 @@ def logout():
 def cargar_productos():
     import csv
     from ..models import Imagen
-    file = '/Users/lgcelarie/Documents/flask_cat/gksv_catalog/app/static/cat_pagina.csv'
+    file = '/home/lgcelarie/Documentos/flask_cat/gksv_catalog/app/static/cat_pagina.csv'
 
     with open(file) as csvfile:
         lector = csv.DictReader(csvfile)
@@ -148,9 +148,10 @@ def cargar_productos():
             producto.estado = row['estado']
             producto.condicion = float(row['condicion'])
             producto.cant_visto = 0
+            fotos = int(row['fotos'])
             db.session.add(producto)
 
-            for i in range(1,7):
+            for i in range(1,fotos):
                 imagen = Imagen()
                 if i == 1:
                     imagen.primaria = 1

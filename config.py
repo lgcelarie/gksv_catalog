@@ -28,7 +28,7 @@ class DevelopmentConfig(Config):
     DB_DEFAULT_USER_PASS = 'testPass123'
     DB_DEFAULT_HOST = 'localhost'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-    'mysql://' + DB_DEFAULT_USER + ':' + DB_DEFAULT_USER_PASS + '@' + DB_DEFAULT_HOST + '/gksvcat_dev_db'
+    'mysql://' + DB_DEFAULT_USER + ':' + DB_DEFAULT_USER_PASS + '@' + DB_DEFAULT_HOST + '/gksvcat_db'
 
 class TestingConfig(Config):
     TESTING = True
