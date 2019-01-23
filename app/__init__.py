@@ -28,7 +28,7 @@ def create_app(config_name):
     moment.init_app(app)
     db.init_app(app)
     login.init_app(app)
-    login.login_view = 'login'
+    login.login_view = 'main.login'
     # set optional bootswatch theme
     app.config['FLASK_ADMIN_SWATCH'] = 'slate'
     admin.init_app(app)

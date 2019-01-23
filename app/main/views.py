@@ -148,7 +148,7 @@ def cargar_productos():
             producto.estado = row['estado']
             producto.condicion = float(row['condicion'])
             producto.cant_visto = 0
-            fotos = int(row['fotos'])
+            fotos = int(row['fotos'])+1
             db.session.add(producto)
 
             for i in range(1,fotos):
