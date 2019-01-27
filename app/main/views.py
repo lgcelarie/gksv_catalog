@@ -122,6 +122,13 @@ def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
+@main.route('/como-funciona')
+def como_funciona():
+    return render_template('como-funciona.html')
+
+@main.route('/acerca-de')
+def acerca_de():
+    return render_template('acerca-de.html')
 
 @main.route('/load')
 @login_required
