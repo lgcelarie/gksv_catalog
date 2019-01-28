@@ -38,11 +38,7 @@
                     <a href="{{url_for('main.marca',slug=marca.slug)}}">                        
                         <img src="{{url_for('static',filename='marcas/'+marca.imagen)}}" alt="{{marca.nombre}}">
                         <!-- Hover Content -->
-                        <div class="hover-content">
-                            <div class="line"></div>
-                            <p>Explora</p>
-                            <h4>{{marca.nombre}}</h4>
-                        </div>
+                        
                     </a>
                 </div>
                 {% endfor %}
